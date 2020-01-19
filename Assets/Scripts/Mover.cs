@@ -7,9 +7,16 @@ public class Mover : MonoBehaviour
 {
 
     [SerializeField] Transform target;
+
+    void Start()
+    {
+        // isAI = false;
+    }
     void Update()
     {
-        // change the destination for the navmesh agent to the target position. (e.g use player to go to target)
-        GetComponent<NavMeshAgent>().destination = target.position;
+        // if it is an AI we move to the destination
+            // change the destination for the navmesh agent to the target position. (e.g use player to go to target)
+            GetComponent<NavMeshAgent>().destination = target.position;
+        
     }
 }

@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Mover.cs" />
+     <Compile Include="Assets\Scripts\ObstacleMovement.cs" />
      <None Include="Assets\Asset Packs\Synty - Polygon Student Sample\README - Usage Rights for these assets.txt" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>M:/troyi/Documents/Troydon/IT_Projects/Unity/TutorialProjects/RPG-Project/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
