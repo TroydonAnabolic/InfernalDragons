@@ -40,33 +40,28 @@ namespace RPG.Controllers
                 {
                     GetComponent<Fighter>().Attack(target); // attack target
                 }
-                return true; // if we hover over target we stop movement
+                    return true; // if we hover over target we stop movement
             }
             return false;
         }
 
         public bool InteractWithMovement()
         {
-
             RaycastHit hit; // get information back from raycast
-            bool hasHit = Physics.Raycast(GetMouseRay(), out hit); // determine if we received a hit location
+            bool hasHit = Physics.Raycast(GetMouseRay(), out hit); // gets the mouse position and send out the hit location, once hit will be true
 
+            // if the mouse received ray hit
             if (hasHit)
             {
                 if (Input.GetMouseButton(0))
                 {
-                    // if we hit something move to the point we hit
-                    GetComponent<Mover>().MoveTo(hit.point);
+                    // if we hit something move to the point we hit(we use  GetComponent<Mover>().MoveTo to access the mover's class's MoveTo method)
+                    // then elect hit.point to send the cords of where to move to
+                    GetComponent<Mover>().StartMoveAction(hit.point);
                 }
                 return true; // return true if light has hit
-                //else print("Nothing to do");
             }
             return false;
-        }
-
-        private Vector3 Vector3(int v1, int v2, int v3)
-        {
-            return Vector3(v1, v2, v3);
         }
 
         private static Ray GetMouseRay()

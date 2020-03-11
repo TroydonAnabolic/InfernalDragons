@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// TO DO: Change the log
 namespace RPG.Controllers.Core
 {
     // class to randomly move object
@@ -17,7 +18,7 @@ namespace RPG.Controllers.Core
         }
 
         // Update is called once per frame
-        void Update()
+        void FixedUpdate()
         {
             timer -= Time.deltaTime;
 
@@ -26,6 +27,7 @@ namespace RPG.Controllers.Core
             {
                 if (timer >= 0)
                 {
+                    // transform.position is the objects position. += vector 3 is the movement speed towards the right, this is continouosly updated as tune passes until we reach 5f
                     transform.position += Vector3.right * Time.deltaTime * 1.5f;
                 }
                 else transform.position += Vector3.right * 0; // stop moving
@@ -34,7 +36,7 @@ namespace RPG.Controllers.Core
             {
                 if (timer <= 0)
                 {
-                    transform.position = new Vector3(24, 1.5f, -1.45f); // teleport to hiding spot after a certain time
+                    transform.position = new Vector3(24, 1.5f, -1.45f); // teleport target to hiding spot after a certain time
                 }
             }
         }
