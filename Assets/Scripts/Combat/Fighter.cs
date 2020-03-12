@@ -1,50 +1,71 @@
-﻿using RPG.Movement;
-using UnityEngine;
+﻿using UnityEngine;
+using RPG.Movement;
+using RPG.Core;
+using UnityEngine.AI;
 
 namespace RPG.Combat
 {
-    public class Fighter : MonoBehaviour
+    public class Fighter : MonoBehaviour, IAction
     {
         [SerializeField] float weaponRange = 2f;
-        Transform target;
-        Mover mover;
-        void Start()
-        {
-            mover = GetComponent<Mover>();
-        }
-        void Update()
-        {
-            // if there is no target we do not try to do any attack or attack evaluation
-            if (target == null) return;
+        [SerializeField] float timeBetweemAttacks = 1f;
 
-            // if target is not null and not in range we move to it
-            if ( !IsInRange())
+        Transform target;
+        float timeBetweenLastAttack = 0;
+        private void Update()
+        {
+            timeBetweenLastAttack += Time.deltaTime;
+
+            // make sure only trigger when enough time elapsed and reset time since alst attack
+
+            if (target == null)
             {
-                mover.MoveTo(target.position);
+                return;
             }
-            // if target is in range and exists we stop moving
+
+            if (!GetIsInRange())
+            {
+                GetComponent<Mover>().MoveTo(target.position);
+            }
             else
             {
-                mover.Stop();
+                // uses movers cancel method implementation instead
+                GetComponent<Mover>().Cancel();
+                // if the time since we last attacked is more or equal since the last attack, we play the attack animation
+                if (timeBetweenLastAttack >= timeBetweemAttacks)
+                {
+                    AttackBehaviour();
+                        timeBetweenLastAttack = 0;
+                }
+                
             }
-
         }
 
-        private bool IsInRange()
+        private void AttackBehaviour()
         {
-            // if the target distance is in range when under weapon range
+            GetComponent<Animator>().SetTrigger("attack");
+        }
+
+        private bool GetIsInRange()
+        {
             return Vector3.Distance(transform.position, target.position) < weaponRange;
         }
 
         public void Attack(CombatTarget combatTarget)
         {
+            GetComponent<ActionScheduler>().StartAction(this);
             target = combatTarget.transform;
-            Debug.Log("Take that you demon!");
         }
 
         public void Cancel()
         {
             target = null;
         }
+
+        // Animation event
+        void Hit()
+        {
+        }
+
     }
 }
