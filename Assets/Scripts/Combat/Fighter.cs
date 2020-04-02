@@ -9,6 +9,7 @@ namespace RPG.Combat
     {
         [SerializeField] float weaponRange = 2f;
         [SerializeField] float timeBetweemAttacks = 1f;
+        [SerializeField] float weaponDamage = 5f;
 
         Transform target;
         float timeBetweenLastAttack = 0;
@@ -32,18 +33,28 @@ namespace RPG.Combat
                 // uses movers cancel method implementation instead
                 GetComponent<Mover>().Cancel();
                 // if the time since we last attacked is more or equal since the last attack, we play the attack animation
-                if (timeBetweenLastAttack >= timeBetweemAttacks)
-                {
+               
                     AttackBehaviour();
-                        timeBetweenLastAttack = 0;
-                }
-                
             }
         }
 
         private void AttackBehaviour()
         {
+        if (timeBetweenLastAttack >= timeBetweemAttacks)
+        {
+                // trigger the attack animation each time the time between last attack is greater or equal to 0
             GetComponent<Animator>().SetTrigger("attack");
+                timeBetweenLastAttack = 0;
+            }
+        }
+
+
+        // Animation event
+        void Hit()
+        {
+            // take health off each time the hit event is finished
+            Health healthComponent = target.GetComponent<Health>();
+            healthComponent.TakeDamage(weaponDamage);
         }
 
         private bool GetIsInRange()
@@ -55,6 +66,7 @@ namespace RPG.Combat
         {
             GetComponent<ActionScheduler>().StartAction(this);
             target = combatTarget.transform;
+  
         }
 
         public void Cancel()
@@ -62,10 +74,6 @@ namespace RPG.Combat
             target = null;
         }
 
-        // Animation event
-        void Hit()
-        {
-        }
 
     }
 }
