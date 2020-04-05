@@ -15,21 +15,33 @@ namespace RPG.Control
 
         private bool InteractWithCombat()
         {
-            // gets an array of hits
+            // if we can attack then we may shoot rays
+
+            // gets an array of hits of mouse
             RaycastHit[] hits = Physics.RaycastAll(GetMouseRay());
             foreach (RaycastHit hit in hits)
             {
+                // keep trying to get the raycast hits until we have a valid and alive target
+                CombatTarget target;
                 // set it so only when the ray hits the target with the component COmbat Target then we set value to target on the ray
-                CombatTarget target = hit.transform.GetComponent<CombatTarget>();
-                // if we have no target we continue
-                if (target == null) continue;
+                target = hit.transform.GetComponent<CombatTarget>();
+
+                if (target == null) { continue; }
+
+                if (!GetComponent<Fighter>().CanAttack(target.gameObject)) // sets the game object of the target as the target
+                {
+                    continue;
+                }
 
                 if (Input.GetMouseButtonDown(0))
                 {
-                    GetComponent<Fighter>().Attack(target);
+                        GetComponent<Fighter>().Attack(target.gameObject);
+                   // else continue;
                 }
                 return true;
             }
+
+            // do not interact with combat if we do not click on anything and target is not dead
             return false;
         }
 
