@@ -1,4 +1,5 @@
 ﻿using RPG.Combat;
+using RPG.Core;
 using RPG.Movement;
 using UnityEngine;
 
@@ -6,17 +7,25 @@ namespace RPG.Control
 {
     public class PlayerController : MonoBehaviour
     {
+        Health health;
 
+        private void Start()
+        {
+            health = GetComponent<Health>();
+        }
         private void Update()
         {
-            if (InteractWithCombat()) return; // if this is true we perform the action and then return, waiting for the next action to perform
-            if (InteractWithMovement()) return;
+            // while we are not dead we can make these actions
+            if (!health.isDead())
+            {
+                if (InteractWithCombat()) return; // if this is true we perform the action and then return, waiting for the next action to perform
+                if (InteractWithMovement()) return;
+            }
         }
 
         private bool InteractWithCombat()
         {
             // if we can attack then we may shoot rays
-
             // gets an array of hits of mouse
             RaycastHit[] hits = Physics.RaycastAll(GetMouseRay());
             foreach (RaycastHit hit in hits)
@@ -35,12 +44,11 @@ namespace RPG.Control
 
                 if (Input.GetMouseButtonDown(0))
                 {
-                        GetComponent<Fighter>().Attack(target.gameObject);
-                   // else continue;
+                    GetComponent<Fighter>().Attack(target.gameObject);
+                    // else continue;
                 }
                 return true;
             }
-
             // do not interact with combat if we do not click on anything and target is not dead
             return false;
         }

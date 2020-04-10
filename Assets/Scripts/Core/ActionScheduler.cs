@@ -19,5 +19,11 @@ namespace RPG.Core
             }
             currentAction = action;
         }
+
+        // method that disables all current actions currently running and stops it
+        public void CancelAction()
+        {
+            StartAction(null);
+        }
     }
 }

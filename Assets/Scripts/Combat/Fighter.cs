@@ -13,7 +13,7 @@ namespace RPG.Combat
         Animator animator;
 
         Health target;
-        float timeBetweenLastAttack = 0;
+        float timeBetweenLastAttack = Mathf.Infinity;
         private void Start()
         {
         }
