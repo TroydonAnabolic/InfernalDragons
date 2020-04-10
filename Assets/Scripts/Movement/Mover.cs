@@ -17,7 +17,7 @@ namespace RPG.Movement
 
         void Update()
         {
-            if (health.isDead()) navMeshAgent.enabled = false;      
+            if (health.isDead()) navMeshAgent.enabled = false;  // disables navmesh when dead   
             UpdateAnimator();
         }
 
@@ -40,6 +40,7 @@ namespace RPG.Movement
             navMeshAgent.isStopped = true;
         }
 
+        // animation movement and speed method
         private void UpdateAnimator()
         {
             // takes global velocity and makes it local and then sets that value as the vector Z value

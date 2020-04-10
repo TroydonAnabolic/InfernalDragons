@@ -39,8 +39,6 @@ namespace RPG.Core
             if (healthPoints == 0) // we do not need to say <= because when we grab health points we already ensured it
             {
                 DeathBehaviour();
-               //GetComponent<Fighter>().Cancel();
-
             }
         }
 
