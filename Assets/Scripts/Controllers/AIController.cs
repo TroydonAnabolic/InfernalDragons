@@ -3,6 +3,7 @@ using RPG.Movement;
 using RPG.Combat;
 using RPG.Core;
 using UnityEngine.AI;
+using System;
 
 namespace RPG.Control
 {
@@ -10,12 +11,17 @@ namespace RPG.Control
     {
         [SerializeField] float chaseDistance = 5f;
         [SerializeField] float suspicionTime = 5f;
+        [SerializeField] float wayPointWaitTime = 3f;
+        [SerializeField] float wayPointTolerance = 1f;
+        [SerializeField] PatrolPath patrolPath;
         Mover mover;
         Fighter fighter;
         GameObject player;
         Health health;
         Vector3 guardPosition;
         float timeSinceLastSawPlayer = Mathf.Infinity;
+        [SerializeField] float timeSinceReachedLastWayPoint = Mathf.Infinity;
+        int currentWayPointIndex = 0;
 
         private void Start()
         {
@@ -29,14 +35,20 @@ namespace RPG.Control
         // Update is called once per frame
         void Update()
         {
-            timeSinceLastSawPlayer += Time.deltaTime;
+            UpdateTimers();
 
             if (!health.isDead())
             {
                 if (AttackPlayer()) return; // if this is true we perform the action and then return, waiting for the next action to perform
                 if (Suspicion()) return;
-                if (GuardBehaviour()) return;
+                if (PatrolBehaviour()) return;
             }
+        }
+
+        private void UpdateTimers()
+        {
+            timeSinceReachedLastWayPoint += Time.deltaTime;
+            timeSinceLastSawPlayer += Time.deltaTime;
         }
 
         private bool AttackPlayer()
@@ -64,14 +76,55 @@ namespace RPG.Control
         }
 
         // if we are not within distance we return to our position, after 5 seconds have passed for suspicion to go
-        private bool GuardBehaviour()
+        private bool PatrolBehaviour()
         {
+            Vector3 nextPosition = guardPosition;
+
             if (!InAttackRange() && timeSinceLastSawPlayer >= suspicionTime)
             {
-                mover.StartMoveAction(guardPosition);
+                //  mover.StartMoveAction(patrolPath.GetWaypoint(currentWayPointIndex));
+
+                if (patrolPath != null)
+                {
+                    if (AtWayPoint())
+                    {
+                        timeSinceReachedLastWayPoint = 0;       // each time we arrive at the way point we reset the time to wait
+                        CycleWayPoint();
+
+                        // when we are at the way point, we change the current way point value
+                    }
+
+                    nextPosition = GetCurrentWayPoint();        // now move to that new way point value
+                }
+                if (timeSinceReachedLastWayPoint > wayPointWaitTime)
+                {
+                    mover.StartMoveAction(nextPosition);
+                }
                 return true;
             }
+
             return false;
+        }
+
+        // returns the current way point
+        private Vector3 GetCurrentWayPoint()
+        {
+            return patrolPath.GetWaypoint(currentWayPointIndex);
+        }
+
+        // changes the way point index to the next one, when way point wait time has elapsed
+        private void CycleWayPoint()
+        {
+
+            currentWayPointIndex = patrolPath.GetNextIndex(currentWayPointIndex);
+        }
+
+        // returns true if the distance to way point is less than the way point tolerance, reset way point timer
+        private bool AtWayPoint()
+        {
+            float distanceToWayPoint = Vector3.Distance(transform.position, GetCurrentWayPoint());
+
+            return distanceToWayPoint < wayPointTolerance;
         }
 
         // Evaluates to a true statement when distance from enemy to the palyer is less than chase distance
