@@ -62,7 +62,7 @@ namespace RPG.Control
                 if (Input.GetMouseButton(0))
                 {
                     // we always use the cancel move action on every movement
-                    GetComponent<Mover>().StartMoveAction(hit.point);
+                    GetComponent<Mover>().StartMoveAction(hit.point, 1f);
                 }
                 return true;
             }

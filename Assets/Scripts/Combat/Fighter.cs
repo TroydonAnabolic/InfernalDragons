@@ -39,7 +39,7 @@ namespace RPG.Combat
             // TODO: Implement cancel attack so we can implement destroy game object, and not get stuck with no target
             if (!GetIsInRange())
             {
-                GetComponent<Mover>().MoveTo(target.transform.position);
+                GetComponent<Mover>().MoveTo(target.transform.position, 1f);
             }
             else
             {

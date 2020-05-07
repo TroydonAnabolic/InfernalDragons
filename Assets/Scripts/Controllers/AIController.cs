@@ -13,7 +13,11 @@ namespace RPG.Control
         [SerializeField] float suspicionTime = 5f;
         [SerializeField] float wayPointWaitTime = 3f;
         [SerializeField] float wayPointTolerance = 1f;
+        [SerializeField] float patrolSpeed = 3f;
+        [Range(0, 1)]
+        [SerializeField] float patrolSpeedFraction = 0.2f;
         [SerializeField] PatrolPath patrolPath;
+
         Mover mover;
         Fighter fighter;
         GameObject player;
@@ -22,9 +26,11 @@ namespace RPG.Control
         float timeSinceLastSawPlayer = Mathf.Infinity;
         [SerializeField] float timeSinceReachedLastWayPoint = Mathf.Infinity;
         int currentWayPointIndex = 0;
+        NavMeshAgent navMeshAgent;
 
         private void Start()
         {
+            navMeshAgent = GetComponent<NavMeshAgent>();
             guardPosition = transform.position;
             mover = GetComponent<Mover>();
             fighter = GetComponent<Fighter>();
@@ -82,8 +88,6 @@ namespace RPG.Control
 
             if (!InAttackRange() && timeSinceLastSawPlayer >= suspicionTime)
             {
-                //  mover.StartMoveAction(patrolPath.GetWaypoint(currentWayPointIndex));
-
                 if (patrolPath != null)
                 {
                     if (AtWayPoint())
@@ -93,16 +97,14 @@ namespace RPG.Control
 
                         // when we are at the way point, we change the current way point value
                     }
-
                     nextPosition = GetCurrentWayPoint();        // now move to that new way point value
                 }
                 if (timeSinceReachedLastWayPoint > wayPointWaitTime)
                 {
-                    mover.StartMoveAction(nextPosition);
+                    mover.StartMoveAction(nextPosition, patrolSpeedFraction);
                 }
                 return true;
             }
-
             return false;
         }
 
@@ -115,7 +117,6 @@ namespace RPG.Control
         // changes the way point index to the next one, when way point wait time has elapsed
         private void CycleWayPoint()
         {
-
             currentWayPointIndex = patrolPath.GetNextIndex(currentWayPointIndex);
         }
 
