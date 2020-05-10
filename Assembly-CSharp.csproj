@@ -95,6 +95,8 @@
      <Compile Include="Assets\RPG Character Animation Pack FREE\SuperCharacterController\SuperCharacterController\Core\SuperStateMachine.cs" />
      <Compile Include="Assets\RPG Character Animation Pack FREE\SuperCharacterController\SuperCharacterController\DebugDraw.cs" />
      <Compile Include="Assets\RPG Character Animation Pack FREE\SuperCharacterController\SuperCharacterController\Math3d.cs" />
+     <Compile Include="Assets\Scripts\Cinematics\CinematicControlRemover.cs" />
+     <Compile Include="Assets\Scripts\Cinematics\CinematicTrigger.cs" />
      <Compile Include="Assets\Scripts\Combat\CombatTarget.cs" />
      <Compile Include="Assets\Scripts\Combat\Fighter.cs" />
      <Compile Include="Assets\Scripts\Controllers\AIController.cs" />
@@ -175,6 +177,9 @@
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>M:/Troydon/Documents/Troydon/IT_Projects/Unity/TutorialProjects/RPG-Project/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>
+ <Reference Include="Cinemachine">
+ <HintPath>M:/Troydon/Documents/Troydon/IT_Projects/Unity/TutorialProjects/RPG-Project/Library/ScriptAssemblies/Cinemachine.dll</HintPath>
+ </Reference>
  <Reference Include="Unity.VSCode.Editor">
  <HintPath>M:/Troydon/Documents/Troydon/IT_Projects/Unity/TutorialProjects/RPG-Project/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
  </Reference>
@@ -193,17 +198,14 @@
  <Reference Include="Unity.Rider.Editor">
  <HintPath>M:/Troydon/Documents/Troydon/IT_Projects/Unity/TutorialProjects/RPG-Project/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
  </Reference>
+ <Reference Include="com.unity.cinemachine.editor">
+ <HintPath>M:/Troydon/Documents/Troydon/IT_Projects/Unity/TutorialProjects/RPG-Project/Library/ScriptAssemblies/com.unity.cinemachine.editor.dll</HintPath>
+ </Reference>
  <Reference Include="Unity.TextMeshPro">
  <HintPath>M:/Troydon/Documents/Troydon/IT_Projects/Unity/TutorialProjects/RPG-Project/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.UI">
  <HintPath>M:/Troydon/Documents/Troydon/IT_Projects/Unity/TutorialProjects/RPG-Project/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
- </Reference>
- <Reference Include="Cinemachine">
- <HintPath>M:/Troydon/Documents/Troydon/IT_Projects/Unity/TutorialProjects/RPG-Project/Library/ScriptAssemblies/Cinemachine.dll</HintPath>
- </Reference>
- <Reference Include="com.unity.cinemachine.editor">
- <HintPath>M:/Troydon/Documents/Troydon/IT_Projects/Unity/TutorialProjects/RPG-Project/Library/ScriptAssemblies/com.unity.cinemachine.editor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.AIModule">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.3f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
